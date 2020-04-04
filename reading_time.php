@@ -67,12 +67,23 @@ class PlgContentReading_Time extends CMSPlugin
 		// Set the plugin parameters for the script
 		$document = Factory::getDocument();
 		$document->addScriptOptions('plg_content_reading_time', [
-			'progressbar'          => $this->params->get('progressbar', 1),
-			'progressbar_position' => $this->params->get('progressbar_position', 1),
+			'progressbar'              => $this->params->get('progressbar', 1),
+			'progressbar_position'     => $this->params->get('progressbar_position', 1),
+			'progressbar_color_bg'     => $this->params->get('progressbar_color_bg', '#555'),
+			'progressbar_color_active' => $this->params->get('progressbar_color_active', '#4bdd5b'),
+			'progressbar_height'       => $this->params->get('progressbar_height', '10'),
 		], true);
 
 		$this->readingTime     = $this->getReadingTime($article->text);
 		$article->reading_time = $this->readingTime;
+
+		if ($this->params->get('progressbar', 1) == 1)
+		{
+			$path = JPluginHelper::getLayoutPath('content', 'reading_time', 'progress');
+			ob_start();
+			include $path;
+			echo ob_get_clean();
+		}
 	}
 
 	/**

@@ -80,10 +80,36 @@
                     <option value="1">PLG_CONTENT_READING_TIME_POSITION_TOP</option>
                     <option value="2">PLG_CONTENT_READING_TIME_POSITION_BOTTOM</option>
                 </field>
+                <field
+                        name="progressbar_color_bg"
+                        type="color"
+                        default="#555"
+                        format="rgba"
+                        label="PLG_CONTENT_READING_TIME_PROGRESSBAR_COLOR_BG"
+                        description="PLG_CONTENT_READING_TIME_PROGRESSBAR_COLOR_BG_DESCRIPTION"
+                        showon="progressbar:1"/>
+                <field
+                        name="progressbar_color_active"
+                        type="color"
+                        default="#4bdd5b"
+                        format="rgba"
+                        label="PLG_CONTENT_READING_TIME_PROGRESSBAR_COLOR_ACTIVE"
+                        description="PLG_CONTENT_READING_TIME_PROGRESSBAR_COLOR_ACTIVE_DESCRIPTION"
+                        showon="progressbar:1"/>
+                <field
+                        name="progressbar_height"
+                        type="number"
+                        default="10"
+                        min="0"
+                        step="1"
+                        label="PLG_CONTENT_READING_TIME_PROGRESSBAR_HEIGHT"
+                        description="PLG_CONTENT_READING_TIME_PROGRESSBAR_HEIGHT_DESCRIPTION"
+                        showon="progressbar:1"
+                />
             </fieldset>
         </fields>
     </config>
-    <media destination="plg_content_read_time" folder="media">
+    <media destination="plg_content_reading_time" folder="media">
         <folder>css</folder>
         <folder>js</folder>
     </media>
