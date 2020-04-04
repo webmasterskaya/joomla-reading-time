@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.9" type="plugin" group="content" method="upgrade">
+    <name>PLG_CONTENT_READING_TIME</name>
+    <author>Artem Vasilev - Webmasterskaya</author>
+    <creationDate>04.04.2020</creationDate>
+    <copyright>Copyright (c) 2018 - 2020 Webmasterskaya. All rights reserved.</copyright>
+    <license>GNU General Public License version 3 or later; see LICENSE.txt</license>
+    <authorEmail>dev@webmasterskaya.xyz</authorEmail>
+    <authorUrl>https://webmasterskaya.xyz</authorUrl>
+    <version>__DEPLOY_VERSION__</version>
+    <description>PLG_CONTENT_READING_TIME_DESCRIPTION</description>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_content_reading_time.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_content_reading_time.sys.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_content_reading_time.ini</language>
+        <language tag="ru-RU">ru-RU/ru-RU.plg_content_reading_time.sys.ini</language>
+    </languages>
+    <files>
+        <filename plugin="reading_time">reading_time.php</filename>
+        <folder>tmpl</folder>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field
+                        name="words_pear_min"
+                        type="number"
+                        default="200"
+                        min="0"
+                        step="1"
+                        label="PLG_CONTENT_READING_TIME_WORDS_PER_MIN"
+                        description="PLG_CONTENT_READING_TIME_WORDS_PER_MIN_DESCRIPTION"/>
+                <field
+                        name="sec_on_image"
+                        type="number"
+                        default="5"
+                        min="0"
+                        step="1"
+                        label="PLG_CONTENT_READING_TIME_SEC_ON_IMAGE"
+                        description="PLG_CONTENT_READING_TIME_SEC_ON_IMAGE_DESCRIPTION"/>
+                <field
+                        name="time_position"
+                        type="list"
+                        label="PLG_CONTENT_READING_TIME_TIME_POSITION"
+                        description="PLG_CONTENT_READING_TIME_TIME_POSITION_DESCRIPTION"
+                        default="1"
+                >
+                    <option value="1">PLG_CONTENT_READING_TIME_POSITION_AFTER_TITLE</option>
+                    <option value="2">PLG_CONTENT_READING_TIME_POSITION_BEFORE_DISPLAY</option>
+                    <option value="3">PLG_CONTENT_READING_TIME_POSITION_AFTER_DISPLAY</option>
+                    <option value="0">PLG_CONTENT_READING_TIME_POSITION_MANUAL</option>
+                </field>
+                <field
+                        name="time_format"
+                        type="list"
+                        label="PLG_CONTENT_READING_TIME_TIME_FORMAT"
+                        description="PLG_CONTENT_READING_TIME_TIME_FORMAT_DESCRIPTION"
+                        default="1"
+                >
+                    <option value="1">PLG_CONTENT_READING_TIME_TIME_FORMAT_MIN_SEC</option>
+                    <option value="2">PLG_CONTENT_READING_TIME_TIME_FORMAT_SEC</option>
+                </field>
+                <field name="progressbar"
+                       type="radio"
+                       label="PLG_CONTENT_READING_TIME_PROGRESSBAR"
+                       decription="PLG_CONTENT_READING_TIME_PROGRESSBAR_DESCRIPTION"
+                       class="btn-group btn-group-yesno"
+                       default="1">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field
+                        name="progressbar_position"
+                        type="list"
+                        label="PLG_CONTENT_READING_TIME_PROGRESSBAR_POSITION"
+                        description="PLG_CONTENT_READING_TIME_PROGRESSBAR_POSITION_DESCRIPTION"
+                        default="1"
+                        showon="progressbar:1"
+                >
+                    <option value="1">PLG_CONTENT_READING_TIME_POSITION_TOP</option>
+                    <option value="2">PLG_CONTENT_READING_TIME_POSITION_BOTTOM</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+    <media destination="plg_content_read_time" folder="media">
+        <folder>css</folder>
+        <folder>js</folder>
+    </media>
+    <updateservers>
+        <server type="extension" priority="1" name="plg_content_read_time">
+            https://webmasterskaya.xyz/update?extension=plg_content_read_time
+        </server>
+    </updateservers>
+</extension>
