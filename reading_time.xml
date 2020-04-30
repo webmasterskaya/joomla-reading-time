@@ -51,6 +51,12 @@
                     <option value="0">PLG_CONTENT_READING_TIME_POSITION_MANUAL</option>
                 </field>
                 <field
+                        name="shortcode_info"
+                        type="note"
+                        label="PLG_CONTENT_READING_TIME_SHORTCODE_INFO"
+                        description="PLG_CONTENT_READING_TIME_SHORTCODE_INFO_DESCRIPTION"
+                        class="alert alert-info"/>
+                <field
                         name="time_format"
                         type="list"
                         label="PLG_CONTENT_READING_TIME_TIME_FORMAT"
