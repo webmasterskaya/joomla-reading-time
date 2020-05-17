@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Joomla - Reading time
- * @version    1.0.0
+ * @version    1.1.0
  * @author     Artem Vasilev - webmasterskaya.xyz
  * @copyright  Copyright (c) 2018 - 2020 Webmasterskaya. All rights reserved.
  * @license    GNU/GPL license: https://www.gnu.org/copyleft/gpl.html
@@ -20,7 +20,7 @@ class PlgContentReading_Time extends CMSPlugin
 	/**
 	 * The Application object
 	 *
-	 * @var    JApplicationSite
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  1.0.0
 	 */
 	protected $app;
@@ -60,29 +60,18 @@ class PlgContentReading_Time extends CMSPlugin
 			return;
 		}
 
-		// Loading styles and scripts
-		HTMLHelper::_('script', 'plg_content_reading_time/script.js', ['relative' => true, 'version' => 'auto']);
-		HTMLHelper::_('stylesheet', 'plg_content_reading_time/style.css', ['relative' => true, 'version' => 'auto']);
-
-		// Set the plugin parameters for the script
-		$document = Factory::getDocument();
-		$document->addScriptOptions('plg_content_reading_time', [
-			'progressbar'              => $this->params->get('progressbar', 1),
-			'progressbar_position'     => $this->params->get('progressbar_position', 1),
-			'progressbar_color_bg'     => $this->params->get('progressbar_color_bg', '#555'),
-			'progressbar_color_active' => $this->params->get('progressbar_color_active', '#4bdd5b'),
-			'progressbar_height'       => $this->params->get('progressbar_height', '10'),
-		], true);
-
 		$this->readingTime     = $this->getReadingTime($article->text);
 		$article->reading_time = $this->readingTime;
 
-		if ($this->params->get('progressbar', 1) == 1)
+		// Replace shortcode with reading time or empty text
+		if (!empty($this->readingTime) && strpos($article->text, '{readingtime}'))
 		{
-			$path = JPluginHelper::getLayoutPath('content', 'reading_time', 'progress');
-			ob_start();
-			include $path;
-			echo ob_get_clean();
+			$output[]      = $this->displayReadingTime();
+			$article->text = str_replace('{readingtime}', implode(PHP_EOL, $output), $article->text);
+		}
+		else
+		{
+			$article->text = str_replace('{readingtime}', '', $article->text);
 		}
 	}
 
@@ -140,6 +129,46 @@ class PlgContentReading_Time extends CMSPlugin
 	}
 
 	/**
+	 * Displays a block with time
+	 *
+	 * @return false|string
+	 *
+	 * @since 1.1.0
+	 */
+	protected function displayReadingTime()
+	{
+		// Loading styles and scripts
+		HTMLHelper::_('script', 'plg_content_reading_time/script.js', ['relative' => true, 'version' => 'auto']);
+		HTMLHelper::_('stylesheet', 'plg_content_reading_time/style.css', ['relative' => true, 'version' => 'auto']);
+
+		// Set the plugin parameters for the script
+		$document = Factory::getDocument();
+		$document->addScriptOptions('plg_content_reading_time', [
+			'progressbar'              => $this->params->get('progressbar', 1),
+			'progressbar_position'     => $this->params->get('progressbar_position', 1),
+			'progressbar_color_bg'     => $this->params->get('progressbar_color_bg', '#555'),
+			'progressbar_color_active' => $this->params->get('progressbar_color_active', '#4bdd5b'),
+			'progressbar_height'       => $this->params->get('progressbar_height', '10'),
+		], true);
+
+		if ($this->params->get('progressbar', 1) == 1)
+		{
+			$path = JPluginHelper::getLayoutPath('content', 'reading_time', 'progress');
+			ob_start();
+			include $path;
+			echo ob_get_clean();
+		}
+
+		$readingTime = $this->readingTime;
+		$path        = JPluginHelper::getLayoutPath('content', 'reading_time', 'time-block');
+		ob_start();
+		include $path;
+		$output = ob_get_clean();
+
+		return $output;
+	}
+
+	/**
 	 * @param   string    $context     The context of the content being passed to the plugin.
 	 * @param   object   &$article     The article object.  Note $article->text is also available
 	 * @param   mixed    &$params      The article params
@@ -164,24 +193,6 @@ class PlgContentReading_Time extends CMSPlugin
 		}
 
 		return implode(PHP_EOL, $output);
-	}
-
-	/**
-	 * Displays a block with time
-	 *
-	 * @return false|string
-	 *
-	 * @since 1.0.0
-	 */
-	protected function displayReadingTime()
-	{
-		$readingTime = $this->readingTime;
-		$path        = JPluginHelper::getLayoutPath('content', 'reading_time', 'time-block');
-		ob_start();
-		include $path;
-		$output = ob_get_clean();
-
-		return $output;
 	}
 
 	/**
